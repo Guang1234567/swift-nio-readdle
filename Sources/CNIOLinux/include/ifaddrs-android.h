@@ -36,13 +36,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdio.h>
 #include <sys/socket.h>
-#include <netdb.h> 
+#include <netdb.h>
+
+// Using ndk-20's directly
+#include <ifaddrs.h>
 
 /* Implementation of getifaddrs for Android.
  * Fills out a list of ifaddr structs (see below) which contain information
  * about every network interface available on the host.
  * See 'man getifaddrs' on Linux or OS X (nb: it is not a POSIX function). */
-struct ifaddrs {
+/*struct ifaddrs {
   struct ifaddrs* ifa_next;
   char* ifa_name;
   unsigned int ifa_flags;
@@ -53,7 +56,7 @@ struct ifaddrs {
       struct sockaddr *ifu_dstaddr;
   } ifa_ifu;
 };
-
+*/
 int android_getifaddrs(struct ifaddrs** result);
 void android_freeifaddrs(struct ifaddrs* addrs);
 

@@ -684,7 +684,7 @@ public final class DatagramBootstrap {
         if K.self == SocketOption.self {
             return self.put(key: key as! SocketOption, value: value as! SocketOptionValue) { lhs, rhs in
                 switch (lhs, rhs) {
-                case (.const(let lLevel, let lName), .const(let rLevel, let rName)):
+                case (.const((let lLevel, let lName)), .const((let rLevel, let rName))):
                     return lLevel == rLevel && lName == rName
                 }
             }

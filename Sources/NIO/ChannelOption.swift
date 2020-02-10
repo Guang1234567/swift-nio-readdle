@@ -37,7 +37,7 @@ extension ChannelOption where AssociatedValueType == () {
 }
 
 public typealias SocketOptionName = Int32
-#if os(Linux)
+#if os(Linux) || os(Android)
     public typealias SocketOptionLevel = Int
     public typealias SocketOptionValue = Int
 #else
@@ -66,7 +66,7 @@ public enum SocketOption: ChannelOption {
 
     public var value: (SocketOptionLevel, SocketOptionName) {
         switch self {
-        case .const(let level, let name):
+        case .const((let level, let name)):
             return (level, name)
         }
     }
