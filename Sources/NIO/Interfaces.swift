@@ -83,10 +83,17 @@ public final class NIONetworkInterface {
             self.netmask = nil
         }
 
-        if (caddr.ifa_flags & IFF_BROADCAST.rawValue) != 0, let addr = caddr.broadaddr {
+        #if os(Linux) || os(Android)
+        let iff_broadcast = IFF_BROADCAST.rawValue
+        let iff_pointopoint = IFF_POINTOPOINT.rawValue
+        #else
+        let iff_broadcast = UInt32(IFF_BROADCAST)
+        let iff_pointopoint = UInt32(IFF_POINTOPOINT)
+        #endif
+        if (caddr.ifa_flags & iff_broadcast) != 0, let addr = caddr.broadaddr {
             self.broadcastAddress = addr.convert()
             self.pointToPointDestinationAddress = nil
-        } else if (caddr.ifa_flags & IFF_POINTOPOINT.rawValue) != 0, let addr = caddr.dstaddr {
+        } else if (caddr.ifa_flags & iff_pointopoint) != 0, let addr = caddr.dstaddr {
             self.broadcastAddress = nil
             self.pointToPointDestinationAddress = addr.convert()
         } else {
